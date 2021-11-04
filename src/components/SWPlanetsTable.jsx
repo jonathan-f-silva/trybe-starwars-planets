@@ -3,19 +3,32 @@ import React, { useContext } from 'react';
 import SWPlanetsContext from '../context/SWPlanetsContext';
 
 export default function SWPlanetsTable() {
-  const { data } = useContext(SWPlanetsContext);
+  const { data, filters } = useContext(SWPlanetsContext);
   const EXCLUDED_COLUMNS = ['residents'];
-  return data.length > 0 && (
+
+  const filteredPlanets = Object.entries(filters)
+    .reduce((filtered, [filter, options]) => {
+      switch (filter) {
+      case 'filterByName':
+        return filtered.filter(({ name }) => (
+          name.toLowerCase().includes(options.name.toLowerCase())
+        ));
+      default:
+        return filtered;
+      }
+    }, data);
+
+  return filteredPlanets.length > 0 && (
     <table>
       <thead>
         <tr>
-          { Object.keys(data[0]).map((key) => (
+          { Object.keys(filteredPlanets[0]).map((key) => (
             EXCLUDED_COLUMNS.includes(key) ? null : <th key={ key }>{key}</th>
           )) }
         </tr>
       </thead>
       <tbody>
-        { data.map((planet) => (
+        { filteredPlanets.map((planet) => (
           <tr key={ planet.name }>
             { Object.entries(planet).map(([key, value]) => (
               EXCLUDED_COLUMNS.includes(key) ? null : <td key={ value }>{value}</td>
