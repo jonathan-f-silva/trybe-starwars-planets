@@ -30,6 +30,14 @@ export default function SWPlanetsProvider({ children }) {
     });
   };
 
+  const removeNumericFilter = (filterColumn) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: filters.filterByNumericValues
+        .filter(({ column }) => column !== filterColumn),
+    });
+  };
+
   useEffect(() => { getSWPlanets().then(setData); }, []);
 
   return (
@@ -39,6 +47,7 @@ export default function SWPlanetsProvider({ children }) {
         filters,
         handleFilterByName,
         handleFilterByNumericValues,
+        removeNumericFilter,
       } }
     >
       { children }

@@ -3,7 +3,12 @@ import SWPlanetsContext from '../context/SWPlanetsContext';
 import SWPlanetsFilterNumeric from './SWPlanetsFilterNumeric';
 
 export default function SWPlanetsFilters() {
-  const { filters, handleFilterByName } = useContext(SWPlanetsContext);
+  const {
+    filters,
+    handleFilterByName,
+    removeNumericFilter,
+  } = useContext(SWPlanetsContext);
+
   return (
     <section className="sw-planets-filters">
       <input
@@ -15,8 +20,14 @@ export default function SWPlanetsFilters() {
       />
       <SWPlanetsFilterNumeric />
       { filters.filterByNumericValues.map(({ column, comparison, value }) => (
-        <div key={ column }>
-          {`${column} ${comparison} ${value}`}
+        <div data-testid="filter" key={ column }>
+          <span>{`${column} ${comparison} ${value}`}</span>
+          <button
+            type="button"
+            onClick={ () => removeNumericFilter(column) }
+          >
+            X
+          </button>
         </div>
       )) }
     </section>
