@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import SWPlanetsContext from '../context/SWPlanetsContext';
+import SWPlanetsFilterNumeric from './SWPlanetsFilterNumeric';
 
 export default function SWPlanetsFilters() {
   const { filters, handleFilterByName } = useContext(SWPlanetsContext);
@@ -12,6 +13,12 @@ export default function SWPlanetsFilters() {
         onChange={ ({ target: { value } }) => handleFilterByName(value) }
         placeholder="Filtre pelo nome"
       />
+      <SWPlanetsFilterNumeric />
+      { filters.filterByNumericValues.map(({ column, comparison, value }) => (
+        <div key={ column }>
+          {`${column} ${comparison} ${value}`}
+        </div>
+      )) }
     </section>
   );
 }

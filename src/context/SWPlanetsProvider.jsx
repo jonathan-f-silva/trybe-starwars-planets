@@ -10,6 +10,7 @@ export default function SWPlanetsProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   const handleFilterByName = (name) => {
@@ -19,12 +20,25 @@ export default function SWPlanetsProvider({ children }) {
     });
   };
 
+  const handleFilterByNumericValues = (filter) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        filter,
+      ],
+    });
+  };
+
   useEffect(() => { getSWPlanets().then(setData); }, []);
 
   return (
     <SWPlanetsContext.Provider
       value={ {
-        data, filters, handleFilterByName,
+        data,
+        filters,
+        handleFilterByName,
+        handleFilterByNumericValues,
       } }
     >
       { children }
