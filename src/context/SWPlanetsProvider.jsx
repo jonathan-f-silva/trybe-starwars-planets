@@ -11,6 +11,10 @@ export default function SWPlanetsProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   const handleFilterByName = (name) => {
@@ -27,6 +31,16 @@ export default function SWPlanetsProvider({ children }) {
         ...filters.filterByNumericValues,
         filter,
       ],
+    });
+  };
+
+  const handleFilterSort = ({ column, sort }) => {
+    setFilters({
+      ...filters,
+      order: {
+        column,
+        sort,
+      },
     });
   };
 
@@ -47,6 +61,7 @@ export default function SWPlanetsProvider({ children }) {
         filters,
         handleFilterByName,
         handleFilterByNumericValues,
+        handleFilterSort,
         removeNumericFilter,
       } }
     >
